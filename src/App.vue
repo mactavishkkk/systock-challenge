@@ -1,23 +1,20 @@
 <template>
   <v-app>
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+    <v-container>
+      <user-form></user-form>
+      <user-list></user-list>
+    </v-container>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import UserList from './components/UserList.vue';
+import UserForm from './components/UserForm.vue';
 
 export default {
-  name: 'App',
-
   components: {
-    HelloWorld,
-  },
-
-  data: () => ({
-    //
-  }),
-}
+    UserList,
+    UserForm
+  }
+};
 </script>
