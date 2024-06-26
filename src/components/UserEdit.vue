@@ -20,7 +20,7 @@
                         placeholder="exemplo@gmail.com" class="mt-3"></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field variant="outlined" v-model="user.password" label="Senha" type="password"
+                    <v-text-field variant="outlined" v-model="user.password" :rules="passwordRules" label="Senha" type="password" required
                         placeholder="******" class="mt-3"></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
@@ -62,6 +62,9 @@ export default {
             emailRules: [
                 v => !!v || 'Email is required',
                 v => /.+@.+\..+/.test(v) || 'Email must be valid'
+            ],
+            passwordRules: [
+                v => !!v || 'Password is required',
             ],
             cpfRules: [
                 v => !!v || 'CPF is required',
