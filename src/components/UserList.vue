@@ -1,11 +1,22 @@
 <template>
     <v-container>
-        <v-data-table :headers="headers" :items="users">
+        <div class="d-flex justify-center mb-6">
+            <p class="text-h5">Gerenciamento de Usuários</p>
+        </div>
+
+        <v-btn class="ma-2" color="green" @click="goCreate()">
+            Criar
+            <v-icon icon="mdi-account-multiple-plus" end></v-icon>
+        </v-btn>
+
+        <v-data-table :headers="headers" :items="formattedUsers">
             <template v-slot:[`item.actions`]="{ item }">
-                <v-btn class="ma-2" color="primary">
-                    Editar
-                    <v-icon icon="mdi-account-edit" end></v-icon>
-                </v-btn>
+                <router-link :to="{ name: 'UserEdit', params: { id: item.id } }">
+                    <v-btn class="ma-2" color="primary">
+                        Editar
+                        <v-icon icon="mdi-account-edit" end></v-icon>
+                    </v-btn>
+                </router-link>
                 <v-btn class="ma-2" color="red" @click="deleteUser(item.id)">
                     Deletar
                     <v-icon icon="mdi-delete" end></v-icon>
@@ -22,13 +33,13 @@ export default {
     data() {
         return {
             headers: [
-                { text: 'ID', value: 'id' },
-                { text: 'Name', value: 'name' },
-                { text: 'CPF', value: 'cpf' },
-                { text: 'Email', value: 'email' },
-                { text: 'Status', value: 'active' },
-                { text: 'Criado em:', value: 'created' },
-                { text: 'Actions', value: 'actions', sortable: false }
+                { title: 'ID', key: 'id' },
+                { title: 'Nome', key: 'name' },
+                { title: 'CPF', key: 'cpf' },
+                { title: 'E-mail', key: 'email' },
+                { title: 'Ativo', key: 'active' },
+                { title: 'Criado', key: 'created' },
+                { title: 'Actions', key: 'actions', sortable: false, align: 'center' }
             ],
             users: []
         };
@@ -56,6 +67,20 @@ export default {
                         console.error(error);
                     });
             }
+        },
+        formatCpf(cpf) {
+            return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        },
+        goCreate() {
+            this.$router.push('/create');
+        }
+    },
+    computed: {
+        formattedUsers() {
+            return this.users.map(user => ({
+                ...user,
+                cpf: this.formatCpf(user.cpf)
+            }));
         }
     }
 };
